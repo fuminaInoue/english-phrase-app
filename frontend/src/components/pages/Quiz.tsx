@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
-import Card from "@material-ui/core/Card"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
 import { Button, Icon, List, ListItemText, Typography } from "@material-ui/core"
@@ -15,8 +14,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     textTransform: "none"
   },
   head: {
-    display: "flex",
-    justifyContent: "space-between",
+  },
+  textInput: {
+    height: "32px",
+    marginTop: "40px",
+    width: "100%",
+    borderRadius: "4px",
+    border: "1px solid #ccc"
+  },
+  reslutImage: {
+    width: "300px",
+    height: "auto",
+    display: "block",
+    margin: "0 auto"
   },
   buttonWrapper: {
     width: "100%",
@@ -24,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "flex-end"
   },
   button: {
-    marginTop:  "60px"
+    marginTop:  "40px"
   },
   card: {
     padding: "8px 16px",
@@ -43,14 +53,12 @@ const Quiz: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)
   const [count, setCount] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
+  const [isCorrect, setIsCorrect] = useState<Boolean|null>(null)
+  const answer = useRef<HTMLInputElement>(null)
   const classes = useStyles()
   const navigate = useNavigate()
 
   const [phrases, setPhrases] = useState<Phrase[]>()
-
-  const onClickCreateIcon = () => {
-    navigate('new')
-  }
 
   useEffect(() => {
     _getPhrase()
@@ -65,6 +73,17 @@ const Quiz: React.FC = () => {
       }
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const onClickSubmit = () => {
+    if(!phrases)return
+
+    const _answer = answer.current?.value.toLowerCase().replace(/\s+/g, "")
+    if (_answer === phrases[count].english.replace(/\s+/g, "")){
+      setIsCorrect(true)
+    } else {
+      setIsCorrect(false)
     }
   }
 
@@ -84,24 +103,50 @@ const Quiz: React.FC = () => {
       {
         isSignedIn && currentUser && phrases&& (
           <>
-          <div className={classes.head}>
-            <Typography variant="h6" component="h2">
-              {showAnswer ? (
-                phrases[count].japanese
-              ):(
-                phrases[count].english
-              )}
-            </Typography>
-          </div>
-          <div className={classes.buttonWrapper}>
-          {showAnswer ? (
-            <Button variant="outlined" color="primary" className={classes.button}
-            onClick={()=>onClickNext()}>次へ</Button>
-          ):(
-            <Button variant="outlined" color="primary" className={classes.button}
-            onClick={()=>setShowAnswer(true)}>日本語訳</Button>
-          )}
-          </div>
+          {isCorrect !== null &&(
+            isCorrect ? (
+            <div>
+              <Typography variant="h4" align="center">正解！</Typography>
+              <img className={classes.reslutImage} src={"../correct.png"} />
+              <div className={classes.buttonWrapper}>
+                <Button variant="outlined" color="primary" className={classes.button}
+                onClick={()=>[onClickNext(),setIsCorrect(null)]}>次へ</Button>
+              </div>
+            </div>
+            ):(
+              <div>
+                <Typography variant="h4" align="center">ざんねん！</Typography>
+                <img className={classes.reslutImage} src={"../incorrect.png"} />
+                <div className={classes.buttonWrapper}>
+                  <Button variant="outlined" color="primary" className={classes.button}
+                  onClick={()=>[onClickNext(),setIsCorrect(null)]}>次へ</Button>
+                </div>
+              </div>
+            ))
+          }
+          {isCorrect === null &&
+            <>
+              <div className={classes.head}>
+                <Typography variant="h6" component="h2">
+                  {showAnswer ? (
+                    phrases[count].english
+                  ):(
+                    phrases[count].japanese
+                  )}
+                </Typography>
+                <input ref={answer} className={classes.textInput}/>
+              </div>
+              <div className={classes.buttonWrapper}>
+                {showAnswer ? (
+                  <Button variant="outlined" color="primary" className={classes.button}
+                  onClick={()=>onClickNext()}>次へ</Button>
+                ):(
+                  <Button variant="outlined" color="primary" className={classes.button}
+                  onClick={()=>onClickSubmit()}>送信</Button>
+                )}
+              </div>
+            </>
+          }
           </>
         )
       }
