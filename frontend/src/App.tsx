@@ -9,6 +9,7 @@ import New from "components/pages/New"
 
 import { getCurrentUser } from "lib/api/auth"
 import { User } from "interfaces/index"
+import Quiz from "components/pages/Quiz"
 
 // グローバルで扱う変数・関数
 export const AuthContext = createContext({} as {
@@ -71,8 +72,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/new" element={<New />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/new" element={<New />} />
+            <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>

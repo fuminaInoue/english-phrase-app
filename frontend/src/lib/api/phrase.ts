@@ -8,7 +8,14 @@ export const getPhrase = () => {
     "client": Cookies.get("_client")||'',
     "uid": Cookies.get("_uid")||''
   }})
+}
 
+export const getRandomPhrase = () => {
+  return client.get("/phrases/random", { headers: {
+    "access-token": Cookies.get("_access_token")||'',
+    "client": Cookies.get("_client")||'',
+    "uid": Cookies.get("_uid")||''
+  }})
 }
 
 export const createPhrase = (data: Phrase) => {
