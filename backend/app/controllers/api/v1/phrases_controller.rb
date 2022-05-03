@@ -5,6 +5,12 @@ class Api::V1::PhrasesController < ApplicationController
     render json: { status: 200, phrases: phrases }
   end
 
+  def show
+    phrases = Phrase.where(user_id: current_api_v1_user.id).order("RAND()")
+
+    render json: { status: 200, phrases: phrases }
+  end
+
   def create
     phrase = Phrase.new(prhase_params)
 

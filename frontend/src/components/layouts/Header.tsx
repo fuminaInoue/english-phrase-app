@@ -9,7 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 
 import { signOut } from "lib/api/auth"
 
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
             className={classes.linkBtn}
             onClick={handleSignOut}
           >
-            サインアウト
+            <ExitToAppIcon />
           </Button>
         )
       } else {
@@ -87,17 +87,14 @@ const Header: React.FC = () => {
     }
   }
 
+  const onClickQuiz = () => {
+    navigate('quiz')
+  }
+
   return (
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.iconButton}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             component={Link}
             to="/"
@@ -106,6 +103,14 @@ const Header: React.FC = () => {
           >
             English Phrase
           </Typography>
+          <IconButton
+            edge="start"
+            className={classes.iconButton}
+            color="inherit"
+            onClick={()=>onClickQuiz()}
+          >
+            ?
+          </IconButton>
           <AuthButtons />
         </Toolbar>
       </AppBar>
