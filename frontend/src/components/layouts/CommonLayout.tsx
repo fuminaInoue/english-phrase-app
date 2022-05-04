@@ -1,14 +1,14 @@
-import React from "react"
+import React from 'react'
 
-import { Container, Grid } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
-import Header from "components/layouts/Header"
+import Header from 'components/layouts/Header'
 
 const useStyles = makeStyles(() => ({
   container: {
-    paddingTop: "3rem"
-  }
+    paddingTop: '3rem',
+  },
 }))
 
 interface CommonLayoutProps {
@@ -29,7 +29,7 @@ const CommonLayout = ({ children }: CommonLayoutProps) => {
           <Grid container justify="center">
             <Grid item xs={10}>
               {children}
-            </Grid>   
+            </Grid>
           </Grid>
         </Container>
       </main>

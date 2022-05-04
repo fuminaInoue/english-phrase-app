@@ -1,26 +1,33 @@
-import React, { useState, useEffect, createContext } from "react"
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import React, { useState, useEffect, createContext } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 
-import CommonLayout from "components/layouts/CommonLayout"
-import Home from "components/pages/Home"
-import SignUp from "components/pages/SignUp"
-import SignIn from "components/pages/SignIn"
-import New from "components/pages/New"
-import Edit from "components/pages/Edit"
+import CommonLayout from 'components/layouts/CommonLayout'
+import Home from 'components/pages/Home'
+import SignUp from 'components/pages/SignUp'
+import SignIn from 'components/pages/SignIn'
+import New from 'components/pages/New'
+import Edit from 'components/pages/Edit'
 
-import { getCurrentUser } from "lib/api/auth"
-import { User } from "interfaces/index"
-import Quiz from "components/pages/Quiz"
+import { getCurrentUser } from 'lib/api/auth'
+import { User } from 'interfaces/index'
+import Quiz from 'components/pages/Quiz'
 
 // グローバルで扱う変数・関数
-export const AuthContext = createContext({} as {
-  loading: boolean
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  isSignedIn: boolean
-  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-  currentUser: User | undefined
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
-})
+export const AuthContext = createContext(
+  {} as {
+    loading: boolean
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    isSignedIn: boolean
+    setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
+    currentUser: User | undefined
+    setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  }
+)
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
@@ -38,7 +45,7 @@ const App: React.FC = () => {
         setIsSignedIn(true)
         setCurrentUser(res?.data.currentUser)
       } else {
-        console.log("No current user")
+        console.log('No current user')
       }
     } catch (err) {
       console.log(err)
@@ -50,7 +57,6 @@ const App: React.FC = () => {
   useEffect(() => {
     handleGetCurrentUser()
   }, [setCurrentUser])
-
 
   // ユーザーが認証済みかどうかでルーティングを決定
   // 未認証だった場合は「/signin」ページに促す
@@ -68,7 +74,16 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+      <AuthContext.Provider
+        value={{
+          loading,
+          setLoading,
+          isSignedIn,
+          setIsSignedIn,
+          currentUser,
+          setCurrentUser,
+        }}
+      >
         <CommonLayout>
           <Routes>
             <Route path="/signup" element={<SignUp />} />

@@ -1,41 +1,41 @@
-import React, { useState, useContext } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import Cookies from "js-cookie"
+import React, { useState, useContext } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import { Typography } from "@material-ui/core"
-import TextField from "@material-ui/core/TextField"
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import CardHeader from "@material-ui/core/CardHeader"
-import Button from "@material-ui/core/Button"
-import Box from "@material-ui/core/Box"
+import { makeStyles, Theme } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import CardHeader from '@material-ui/core/CardHeader'
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 
-import { AuthContext } from "App"
-import AlertMessage from "components/utils/AlertMessage"
-import { signIn } from "lib/api/auth"
-import { SignInData } from "interfaces/index"
+import { AuthContext } from 'App'
+import AlertMessage from 'components/utils/AlertMessage'
+import { signIn } from 'lib/api/auth'
+import { SignInData } from 'interfaces/index'
 
 const useStyles = makeStyles((theme: Theme) => ({
   submitBtn: {
     paddingTop: theme.spacing(2),
-    textAlign: "right",
+    textAlign: 'right',
     flexGrow: 1,
-    textTransform: "none"
+    textTransform: 'none',
   },
   header: {
-    textAlign: "center"
+    textAlign: 'center',
   },
   card: {
     padding: theme.spacing(2),
-    maxWidth: 400
+    maxWidth: 400,
   },
   box: {
-    paddingTop: "2rem"
+    paddingTop: '2rem',
   },
   link: {
-    textDecoration: "none"
-  }
+    textDecoration: 'none',
+  },
 }))
 
 // サインイン用ページ
@@ -45,8 +45,8 @@ const SignIn: React.FC = () => {
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
 
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
 
     const data: SignInData = {
       email: email,
-      password: password
+      password: password,
     }
 
     try {
@@ -63,16 +63,16 @@ const SignIn: React.FC = () => {
 
       if (res.status === 200) {
         // 成功した場合はCookieに各値を格納
-        Cookies.set("_access_token", res.headers["access-token"])
-        Cookies.set("_client", res.headers["client"])
-        Cookies.set("_uid", res.headers["uid"])
+        Cookies.set('_access_token', res.headers['access-token'])
+        Cookies.set('_client', res.headers['client'])
+        Cookies.set('_uid', res.headers['uid'])
 
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
 
-        navigate("/")
+        navigate('/')
 
-        console.log("Signed in successfully!")
+        console.log('Signed in successfully!')
       } else {
         setAlertMessageOpen(true)
       }
@@ -95,7 +95,7 @@ const SignIn: React.FC = () => {
               label="メールアドレス"
               value={email}
               margin="dense"
-              onChange={event => setEmail(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               variant="outlined"
@@ -107,9 +107,9 @@ const SignIn: React.FC = () => {
               value={password}
               margin="dense"
               autoComplete="current-password"
-              onChange={event => setPassword(event.target.value)}
+              onChange={(event) => setPassword(event.target.value)}
             />
-            <Box className={classes.submitBtn} >
+            <Box className={classes.submitBtn}>
               <Button
                 type="submit"
                 variant="outlined"
@@ -126,7 +126,7 @@ const SignIn: React.FC = () => {
                 <Link to="/signup" className={classes.link}>
                   こちら
                 </Link>
-                 から作成してください。
+                から作成してください。
               </Typography>
             </Box>
           </CardContent>

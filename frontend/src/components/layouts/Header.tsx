@@ -1,21 +1,21 @@
-import React, { useContext } from "react"
-import { useNavigate, Link, useLocation } from "react-router-dom"
-import Cookies from "js-cookie"
+import React, { useContext } from 'react'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark'
 import HomeIcon from '@mui/icons-material/Home'
 
-import { signOut } from "lib/api/auth"
+import { signOut } from 'lib/api/auth'
 
-import { AuthContext } from "App"
+import { AuthContext } from 'App'
 
 const useStyles = makeStyles((theme: Theme) => ({
   iconButton: {
@@ -23,19 +23,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {
     flexGrow: 1,
-    textDecoration: "none",
-    color: "inherit"
+    textDecoration: 'none',
+    color: 'inherit',
   },
   linkBtn: {
-    textTransform: "none"
-  }
+    textTransform: 'none',
+  },
 }))
 
 const Header: React.FC = () => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
   const classes = useStyles()
   const navigate = useNavigate()
-  const location = useLocation();
+  const location = useLocation()
 
   const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
@@ -43,16 +43,16 @@ const Header: React.FC = () => {
 
       if (res.data.success === true) {
         // サインアウト時には各Cookieを削除
-        Cookies.remove("_access_token")
-        Cookies.remove("_client")
-        Cookies.remove("_uid")
+        Cookies.remove('_access_token')
+        Cookies.remove('_client')
+        Cookies.remove('_uid')
 
         setIsSignedIn(false)
-        navigate("/signin")
+        navigate('/signin')
 
-        console.log("Succeeded in sign out")
+        console.log('Succeeded in sign out')
       } else {
-        console.log("Failed in sign out")
+        console.log('Failed in sign out')
       }
     } catch (err) {
       console.log(err)
@@ -91,9 +91,9 @@ const Header: React.FC = () => {
   }
 
   const onClickQuiz = () => {
-    if(location.pathname !== "/quiz") {
+    if (location.pathname !== '/quiz') {
       navigate('quiz')
-    }else{
+    } else {
       navigate('/')
     }
   }
@@ -114,11 +114,11 @@ const Header: React.FC = () => {
             edge="start"
             className={classes.iconButton}
             color="inherit"
-            onClick={()=>onClickQuiz()}
+            onClick={() => onClickQuiz()}
           >
-            {location.pathname !== "/quiz" ? (
+            {location.pathname !== '/quiz' ? (
               <QuestionMarkIcon />
-            ):(
+            ) : (
               <HomeIcon />
             )}
           </IconButton>

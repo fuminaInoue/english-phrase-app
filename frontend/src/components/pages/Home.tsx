@@ -1,44 +1,44 @@
-import React, { useContext, useEffect, useState } from "react"
-import Card from "@material-ui/core/Card"
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import { AuthContext } from "App"
-import { IconButton, List, ListItemText, Typography } from "@material-ui/core"
-import { useNavigate } from "react-router-dom"
-import { getPhrase } from "lib/api/phrase"
+import React, { useContext, useEffect, useState } from 'react'
+import Card from '@material-ui/core/Card'
+import { makeStyles, Theme } from '@material-ui/core/styles'
+import { AuthContext } from 'App'
+import { IconButton, List, ListItemText, Typography } from '@material-ui/core'
+import { useNavigate } from 'react-router-dom'
+import { getPhrase } from 'lib/api/phrase'
 
 const useStyles = makeStyles((theme: Theme) => ({
   submitBtn: {
     paddingTop: theme.spacing(2),
-    textAlign: "right",
+    textAlign: 'right',
     flexGrow: 1,
-    textTransform: "none"
+    textTransform: 'none',
   },
   head: {
-    marginTop: "40px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: 'center'
+    marginTop: '40px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   list: {
-    width: "100%",
+    width: '100%',
   },
   card: {
-    padding: "8px 16px",
-    marginBottom: "16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    padding: '8px 16px',
+    marginBottom: '16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     '&:hover': {
-      cursor: "pointer",
-      opacity: 0.8
-    }
+      cursor: 'pointer',
+      opacity: 0.8,
+    },
   },
   box: {
-    paddingTop: "2rem"
+    paddingTop: '2rem',
   },
   link: {
-    textDecoration: "none"
-  }
+    textDecoration: 'none',
+  },
 }))
 
 const Home: React.FC = () => {
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
     _getPhrase()
   }, [])
 
-  const _getPhrase = async() => {
+  const _getPhrase = async () => {
     try {
       const res = await getPhrase()
 
@@ -69,32 +69,45 @@ const Home: React.FC = () => {
   }
 
   const onClickEdit = (index: number) => {
-    navigate("edit", { state: phrases[index] })
+    navigate('edit', { state: phrases[index] })
   }
 
   return (
     <>
-      {
-        isSignedIn && currentUser ? (
-          <>
-            <div className={classes.head}>
-              <Typography variant="h6" component="h2">Hello, {currentUser?.name}!</Typography>
-              <IconButton color="primary" size="small" onClick={()=>onClickCreateIcon()}>+</IconButton>
-            </div>
-            <List className={classes.list}>
-              {phrases?.map((phrase:any, index:number) => {
-                return (
-                  <Card key={phrase.id} className={classes.card} onClick={()=>onClickEdit(index)}>
-                    <ListItemText primary={phrase?.english} secondary={phrase?.japanese} />
-                  </Card>
-                )
-              })}
-            </List>
-          </>
-        ) : (
-          <></>
-        )
-      }
+      {isSignedIn && currentUser ? (
+        <>
+          <div className={classes.head}>
+            <Typography variant="h6" component="h2">
+              Hello, {currentUser?.name}!
+            </Typography>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => onClickCreateIcon()}
+            >
+              +
+            </IconButton>
+          </div>
+          <List className={classes.list}>
+            {phrases?.map((phrase: any, index: number) => {
+              return (
+                <Card
+                  key={phrase.id}
+                  className={classes.card}
+                  onClick={() => onClickEdit(index)}
+                >
+                  <ListItemText
+                    primary={phrase?.english}
+                    secondary={phrase?.japanese}
+                  />
+                </Card>
+              )
+            })}
+          </List>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   )
 }
