@@ -4,15 +4,24 @@ import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
 import { Button, TextField } from "@material-ui/core"
 import { useLocation, useNavigate } from "react-router-dom"
-import { patchPhrase } from "lib/api/phrase"
+import { deletePhrase, patchPhrase } from "lib/api/phrase"
 import { Phrase } from "interfaces"
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const useStyles = makeStyles((theme: Theme) => ({
   submitBtn: {
     paddingTop: theme.spacing(2),
     textAlign: "right",
     flexGrow: 1,
-    textTransform: "none"
+    textTransform: "none",
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  deleteIcon: {
+    '&:hover': {
+      cursor: "pointer",
+      opacity: 0.8
+    }
   },
   header: {
     textAlign: "center"
@@ -52,7 +61,22 @@ const Edit: React.FC = () => {
     }
     try {
       const res = await patchPhrase(data)
-      console.log(res)
+
+      if (res.status === 200) {
+        window.alert('success!')
+        navigate('/')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const onClickDelete = async() => {
+    const confirm = window.confirm('削除してよろしいですか？')
+    if(!confirm||!phrase.id) return
+
+    try {
+      const res = await deletePhrase(phrase.id)
 
       if (res.status === 200) {
         window.alert('success!')
@@ -86,6 +110,10 @@ const Edit: React.FC = () => {
       />
     </Card>
     <div className={classes.submitBtn}>
+      <DeleteIcon
+        className={classes.deleteIcon}
+        onClick={()=>onClickDelete()}
+      />
       <Button
         type="submit"
         variant="outlined"
