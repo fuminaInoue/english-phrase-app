@@ -5,7 +5,6 @@ import { AuthContext } from "App"
 import { IconButton, List, ListItemText, Typography } from "@material-ui/core"
 import { useNavigate } from "react-router-dom"
 import { getPhrase } from "lib/api/phrase"
-import EditIcon from '@mui/icons-material/Edit'
 
 const useStyles = makeStyles((theme: Theme) => ({
   submitBtn: {
@@ -15,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textTransform: "none"
   },
   head: {
+    marginTop: "40px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: 'center'
@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: "16px",
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
-  },
-  editIcon: {
+    alignItems: "center",
     '&:hover': {
       cursor: "pointer",
       opacity: 0.8
@@ -43,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-// とりあえず認証済みユーザーの名前やメールアドレスを表示
 const Home: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)
   const classes = useStyles()
@@ -80,16 +77,15 @@ const Home: React.FC = () => {
       {
         isSignedIn && currentUser ? (
           <>
-          <div className={classes.head}>
-            <Typography variant="h6" component="h2">Hello, {currentUser?.name}!</Typography>
-            <IconButton color="primary" size="small" onClick={()=>onClickCreateIcon()}>+</IconButton>
-          </div>
-              <List className={classes.list}>
+            <div className={classes.head}>
+              <Typography variant="h6" component="h2">Hello, {currentUser?.name}!</Typography>
+              <IconButton color="primary" size="small" onClick={()=>onClickCreateIcon()}>+</IconButton>
+            </div>
+            <List className={classes.list}>
               {phrases?.map((phrase:any, index:number) => {
                 return (
-                  <Card key={phrase.id} className={classes.card} >
+                  <Card key={phrase.id} className={classes.card} onClick={()=>onClickEdit(index)}>
                     <ListItemText primary={phrase?.english} secondary={phrase?.japanese} />
-                    <EditIcon className={classes.editIcon} onClick={()=>onClickEdit(index)} />
                   </Card>
                 )
               })}

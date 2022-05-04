@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
-import { Button, Typography } from "@material-ui/core"
+import { Button, ListItemText, Typography } from "@material-ui/core"
 import { useNavigate } from "react-router-dom"
 import { getRandomPhrase } from "lib/api/phrase"
 import { Phrase } from "interfaces"
@@ -13,14 +13,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     textTransform: "none"
   },
-  head: {
+  wrapper: {
+    marginTop: "40px"
   },
   textInput: {
     height: "32px",
     marginTop: "40px",
     width: "100%",
     borderRadius: "4px",
-    border: "1px solid #ccc"
+    border: "1px solid #ccc",
+    paddingLeft: "8px",
+    fontSize: "16px",
+    letterSpacing: 1.6,
+    fontFamily: 'Helvetica Neue'
   },
   reslutImage: {
     width: "300px",
@@ -48,7 +53,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-// とりあえず認証済みユーザーの名前やメールアドレスを表示
 const Quiz: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)
   const [count, setCount] = useState(0)
@@ -56,7 +60,6 @@ const Quiz: React.FC = () => {
   const [isCorrect, setIsCorrect] = useState<Boolean|null>(null)
   const answer = useRef<HTMLInputElement>(null)
   const classes = useStyles()
-  const navigate = useNavigate()
 
   const [phrases, setPhrases] = useState<Phrase[]>()
 
@@ -79,8 +82,9 @@ const Quiz: React.FC = () => {
   const onClickSubmit = () => {
     if(!phrases)return
 
-    const _answer = answer.current?.value.toLowerCase().replace(/\s+/g, "")
-    if (_answer === phrases[count].english.replace(/\s+/g, "")){
+    const _input = answer.current?.value.toLowerCase().replace(/\s+/g, "")
+    const _answer = phrases[count].english.toLowerCase().replace(/\s+/g, "")
+    if (_input === _answer){
       setIsCorrect(true)
     } else {
       setIsCorrect(false)
@@ -102,12 +106,13 @@ const Quiz: React.FC = () => {
     <>
       {
         isSignedIn && currentUser && phrases&& (
-          <>
+          <div className={classes.wrapper}>
           {isCorrect !== null &&(
             isCorrect ? (
             <div>
               <Typography variant="h4" align="center">正解！</Typography>
               <img className={classes.reslutImage} src={"../correct.png"} />
+              <ListItemText primary={`正解：${phrases[count].english}`} secondary={`あなたの解答：${answer.current?.value || "未解答"}`} />
               <div className={classes.buttonWrapper}>
                 <Button variant="outlined" color="primary" className={classes.button}
                 onClick={()=>[onClickNext(),setIsCorrect(null)]}>次へ</Button>
@@ -117,6 +122,7 @@ const Quiz: React.FC = () => {
               <div>
                 <Typography variant="h4" align="center">ざんねん！</Typography>
                 <img className={classes.reslutImage} src={"../incorrect.png"} />
+                <ListItemText primary={`正解：${phrases[count].english}`} secondary={`あなたの解答：${answer.current?.value || "未解答"}`} />
                 <div className={classes.buttonWrapper}>
                   <Button variant="outlined" color="primary" className={classes.button}
                   onClick={()=>[onClickNext(),setIsCorrect(null)]}>次へ</Button>
@@ -126,8 +132,8 @@ const Quiz: React.FC = () => {
           }
           {isCorrect === null &&
             <>
-              <div className={classes.head}>
-                <Typography variant="h6" component="h2">
+              <div>
+                <Typography variant="h5" >
                   {showAnswer ? (
                     phrases[count].english
                   ):(
@@ -147,7 +153,7 @@ const Quiz: React.FC = () => {
               </div>
             </>
           }
-          </>
+          </div>
         )
       }
     </>

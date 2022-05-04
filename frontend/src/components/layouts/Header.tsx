@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import Cookies from "js-cookie"
 
 import { makeStyles, Theme } from "@material-ui/core/styles"
@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark'
+import HomeIcon from '@mui/icons-material/Home'
 
 import { signOut } from "lib/api/auth"
 
@@ -33,6 +35,7 @@ const Header: React.FC = () => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
   const classes = useStyles()
   const navigate = useNavigate()
+  const location = useLocation();
 
   const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
@@ -88,12 +91,16 @@ const Header: React.FC = () => {
   }
 
   const onClickQuiz = () => {
-    navigate('quiz')
+    if(location.pathname !== "/quiz") {
+      navigate('quiz')
+    }else{
+      navigate('/')
+    }
   }
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             component={Link}
@@ -109,7 +116,11 @@ const Header: React.FC = () => {
             color="inherit"
             onClick={()=>onClickQuiz()}
           >
-            ?
+            {location.pathname !== "/quiz" ? (
+              <QuestionMarkIcon />
+            ):(
+              <HomeIcon />
+            )}
           </IconButton>
           <AuthButtons />
         </Toolbar>
