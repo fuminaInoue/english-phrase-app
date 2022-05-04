@@ -6,6 +6,7 @@ import Home from "components/pages/Home"
 import SignUp from "components/pages/SignUp"
 import SignIn from "components/pages/SignIn"
 import New from "components/pages/New"
+import Edit from "components/pages/Edit"
 
 import { getCurrentUser } from "lib/api/auth"
 import { User } from "interfaces/index"
@@ -74,6 +75,7 @@ const App: React.FC = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />} />
             <Route path="/new" element={<New />} />
+            <Route path="/edit" element={<Edit />} />
             <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </CommonLayout>
