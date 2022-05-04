@@ -26,7 +26,8 @@ export interface User {
 
 // フレーズ
 export interface Phrase {
-  userId: number
+  id?: number
+  userId?: number
   english: string
   japanese: string
 }

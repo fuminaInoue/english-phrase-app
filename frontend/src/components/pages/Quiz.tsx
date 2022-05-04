@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
-import { Button, Icon, List, ListItemText, Typography } from "@material-ui/core"
+import { Button, Typography } from "@material-ui/core"
 import { useNavigate } from "react-router-dom"
 import { getRandomPhrase } from "lib/api/phrase"
 import { Phrase } from "interfaces"

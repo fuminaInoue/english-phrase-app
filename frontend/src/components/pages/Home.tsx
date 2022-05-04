@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react"
 import Card from "@material-ui/core/Card"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
-import { Icon, IconButton, List, ListItemText, Typography } from "@material-ui/core"
+import { IconButton, List, ListItemText, Typography } from "@material-ui/core"
 import { useNavigate } from "react-router-dom"
 import { getPhrase } from "lib/api/phrase"
+import EditIcon from '@mui/icons-material/Edit'
 
 const useStyles = makeStyles((theme: Theme) => ({
   submitBtn: {
@@ -23,7 +24,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   card: {
     padding: "8px 16px",
-    marginBottom: "16px"
+    marginBottom: "16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  editIcon: {
+    '&:hover': {
+      cursor: "pointer",
+      opacity: 0.8
+    }
   },
   box: {
     paddingTop: "2rem"
@@ -61,6 +71,10 @@ const Home: React.FC = () => {
     }
   }
 
+  const onClickEdit = (index: number) => {
+    navigate("edit", { state: phrases[index] })
+  }
+
   return (
     <>
       {
@@ -71,10 +85,11 @@ const Home: React.FC = () => {
             <IconButton color="primary" size="small" onClick={()=>onClickCreateIcon()}>+</IconButton>
           </div>
               <List className={classes.list}>
-              {phrases?.map((phrase:any) => {
+              {phrases?.map((phrase:any, index:number) => {
                 return (
                   <Card key={phrase.id} className={classes.card} >
                     <ListItemText primary={phrase?.english} secondary={phrase?.japanese} />
+                    <EditIcon className={classes.editIcon} onClick={()=>onClickEdit(index)} />
                   </Card>
                 )
               })}
