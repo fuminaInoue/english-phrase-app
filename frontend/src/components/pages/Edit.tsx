@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     textTransform: "none",
     display: "flex",
+    alignItems: "center",
     justifyContent: "space-between"
   },
   deleteIcon: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center"
   },
   card: {
+    marginTop: "40px",
     padding: theme.spacing(2),
     maxWidth: 400
   },

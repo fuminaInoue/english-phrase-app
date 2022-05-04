@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react"
 import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import CardHeader from "@material-ui/core/CardHeader"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { AuthContext } from "App"
-import { Button, Icon, TextField, Typography } from "@material-ui/core"
+import { Button, TextField } from "@material-ui/core"
 import { useNavigate } from "react-router-dom"
 import { createPhrase } from "lib/api/phrase"
 import { Phrase } from "interfaces"
@@ -20,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center"
   },
   card: {
+    marginTop: "40px",
     padding: theme.spacing(2),
     maxWidth: 400
   },
@@ -50,10 +49,10 @@ const New: React.FC = () => {
     }
     try {
       const res = await createPhrase(data)
-      console.log(res)
 
       if (res.status === 200) {
         window.alert('success!')
+        navigate("/")
       }
     } catch (err) {
       console.log(err)
