@@ -21,3 +21,7 @@ export const getRandomPhrase = () => {
 export const createPhrase = (data: Phrase) => {
   return client.post("phrases", data)
 }
+
+export const patchPhrase = (data: Phrase) => {
+  return client.patch(`/phrases/${data.id}`, data)
+}

@@ -21,10 +21,23 @@ class Api::V1::PhrasesController < ApplicationController
     end
   end
 
+  def update
+    phrase = Phrase.find(update_params[:id])
+    if phrase.update(update_params)
+      render json: { status: 'SUCCESS', message: 'Updated the post', data: phrase }
+    else
+      render json: { status: 'ERROR', message: 'Not updated', data: phrase.errors }
+    end
+  end
+
   private
 
   def prhase_params
     params.permit(:user_id, :english, :japanese)
+  end
+
+  def update_params
+    params.permit(:id, :english, :japanese)
   end
 
 end
