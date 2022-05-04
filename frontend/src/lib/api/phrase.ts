@@ -25,3 +25,7 @@ export const createPhrase = (data: Phrase) => {
 export const patchPhrase = (data: Phrase) => {
   return client.patch(`/phrases/${data.id}`, data)
 }
+
+export const deletePhrase = (id: number) => {
+  return client.delete(`/phrases/${id}`)
+}

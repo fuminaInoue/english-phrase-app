@@ -30,6 +30,15 @@ class Api::V1::PhrasesController < ApplicationController
     end
   end
 
+  def destroy
+    phrase = Phrase.find(params[:id])
+    if phrase.destroy
+      render json: '削除に成功しました', status: 200
+    else
+      render json: '削除に失敗しました', status: 500
+    end
+  end
+
   private
 
   def prhase_params
